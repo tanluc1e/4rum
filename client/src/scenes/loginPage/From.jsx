@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  Divider,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -187,9 +188,15 @@ const Form = () => {
                       "image/webp": [],
                     }}
                     multiple={false}
-                    onDropAccepted={(accept) =>
-                      setFieldValue("picture", accept[0])
-                    }
+                    onDropAccepted={(accept) => {
+                      setFieldValue("picture", accept[0]);
+
+                      accept.map((file) =>
+                        Object.assign(file, {
+                          preview: URL.createObjectURL(file),
+                        })
+                      );
+                    }}
                   >
                     {({ getRootProps, getInputProps }) => (
                       <Box
@@ -202,10 +209,25 @@ const Form = () => {
                         {!values.picture ? (
                           <p>Add Picture Here</p>
                         ) : (
-                          <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
-                            <EditOutlinedIcon />
-                          </FlexBetween>
+                          <Box>
+                            <FlexBetween>
+                              <img
+                                src={values.picture.preview}
+                                alt={values.picture.name}
+                                onLoad={() => {
+                                  URL.revokeObjectURL(values.picture.preview);
+                                }}
+                                width="50%"
+                              />
+                              <EditOutlinedIcon />
+                            </FlexBetween>
+                            <Divider style={{ margin: "1rem 0 1rem 0" }} />
+                            <FlexBetween>
+                              <Typography style={{ lineBreak: "anywhere" }}>
+                                {values.picture.name}
+                              </Typography>
+                            </FlexBetween>
+                          </Box>
                         )}
                       </Box>
                     )}
