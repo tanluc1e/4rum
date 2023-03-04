@@ -69,7 +69,7 @@ const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends.lenght} friends</Typography>
+            <Typography color={medium}>{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />
@@ -109,7 +109,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
       <Divider />
 
-      {/* FOUR ROW */}
+      {/* FOURTH ROW */}
       <Box p="1rem 0">
         <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
           Social Profiles

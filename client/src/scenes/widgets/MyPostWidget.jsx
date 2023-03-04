@@ -48,7 +48,9 @@ const MyPostWidget = ({ picturePath }) => {
 
     const response = await fetch(`http://localhost:3001/posts`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     });
     const posts = await response.json();
@@ -81,9 +83,14 @@ const MyPostWidget = ({ picturePath }) => {
           p="1rem"
         >
           <Dropzone
-            acceptedFiles=".jpg,.jpeg,.png"
+            accept={{
+              "image/jpeg": [],
+              "image/png": [],
+              "image/jpg": [],
+              "image/webp": [],
+            }}
             multiple={false}
-            onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+            onDropAccepted={(accept) => setImage(accept[0])}
           >
             {({ getRootProps, getInputProps }) => (
               <FlexBetween>
@@ -99,7 +106,9 @@ const MyPostWidget = ({ picturePath }) => {
                     <p>Add Image Here</p>
                   ) : (
                     <FlexBetween>
-                      <Typography>{image.name}</Typography>
+                      <Typography>
+                        {image.name} {_id}
+                      </Typography>
                       <EditOutlined />
                     </FlexBetween>
                   )}
