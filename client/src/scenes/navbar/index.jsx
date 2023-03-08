@@ -9,6 +9,8 @@ import {
   FormControl,
   useTheme,
   useMediaQuery,
+  Link,
+  Breadcrumbs,
 } from "@mui/material";
 import {
   Search,
@@ -25,6 +27,21 @@ import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 
+const locationPath = () => {
+  switch (window.location.pathname) {
+    case "/settings":
+      return (
+        <Link underline="hover" color="inherit" href="#">
+          Settings
+        </Link>
+      );
+      break;
+
+    default:
+      break;
+  }
+};
+
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
@@ -39,7 +56,7 @@ const Navbar = () => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-  const fullName = `Tan Luc`;
+  const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -72,7 +89,14 @@ const Navbar = () => {
           </FlexBetween>
         )}
       </FlexBetween>
-
+      <Box>
+        <Breadcrumbs aria-label="breadcrumb" separator="›">
+          <Link underline="hover" color="inherit" href="/">
+            Home
+          </Link>
+          {locationPath()}
+        </Breadcrumbs>
+      </Box>
       {/* DESKTOP NAV */}
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
@@ -105,7 +129,11 @@ const Navbar = () => {
               input={<InputBase />}
             >
               <MenuItem value={fullName}>
-                <Typography>{fullName}</Typography>
+                <Typography>
+                  <Link href="/settings" underline="none" color="inherit">
+                    {fullName}
+                  </Link>
+                </Typography>
               </MenuItem>
               <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
             </Select>
