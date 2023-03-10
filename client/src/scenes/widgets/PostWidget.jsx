@@ -11,6 +11,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+import mime from "mime";
 
 const PostWidget = ({
   postId,
@@ -33,6 +34,16 @@ const PostWidget = ({
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+
+  const fileUrl = `http://localhost:3001/assets/${picturePath}`;
+  const mimeType = mime.getType(fileUrl);
+  const mimeTypeImage = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+  const validImageTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/jpg",
+  ];
 
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -58,7 +69,31 @@ const PostWidget = ({
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
       </Typography>
-      {picturePath && (
+      {picturePath && !validImageTypes.includes(mimeType) ? (
+        <video
+          id="my-video"
+          className="video-js"
+          preload="auto"
+          width="100%"
+          controls
+          height="80%"
+          poster={`http://localhost:3001/assets/${picturePath}`}
+          style={{ aspectRatio: "1/1.3" }}
+        >
+          <source
+            src={`http://localhost:3001/assets/${picturePath}`}
+            type="video/mp4"
+          />
+          <p className="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading
+            to a web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">
+              supports HTML5 video
+            </a>
+          </p>
+          <track kind="metadata" src="oceans.vtt"></track>
+        </video>
+      ) : (
         <img
           width="100%"
           height="auto"
