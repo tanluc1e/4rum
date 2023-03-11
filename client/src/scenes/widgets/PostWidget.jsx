@@ -36,8 +36,9 @@ const PostWidget = ({
   const primary = palette.primary.main;
 
   const fileUrl = `http://localhost:3001/assets/${picturePath}`;
+  const encodedPath = encodeURIComponent(picturePath);
+
   const mimeType = mime.getType(fileUrl);
-  const mimeTypeImage = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
   const validImageTypes = [
     "image/jpeg",
     "image/png",
@@ -77,11 +78,11 @@ const PostWidget = ({
           width="100%"
           controls
           height="80%"
-          poster={`http://localhost:3001/assets/${picturePath}`}
+          poster={`http://localhost:3001/assets/${encodedPath}`}
           style={{ aspectRatio: "1/1.3" }}
         >
           <source
-            src={`http://localhost:3001/assets/${picturePath}`}
+            src={`http://localhost:3001/assets/${encodedPath}`}
             type="video/mp4"
           />
           <p className="vjs-no-js">
@@ -99,7 +100,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`http://localhost:3001/assets/${encodedPath}`}
         />
       )}
       <FlexBetween mt="0.25rem">
