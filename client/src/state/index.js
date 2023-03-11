@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import bcrypt from "bcryptjs-react";
 
 const initialState = {
   mode: "light",
@@ -39,9 +40,21 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+    updatedUser: (state, action) => {
+      state.user.firstName = action.payload.firstName || state.user.firstName;
+      state.user.lastName = action.payload.lastName || state.user.lastName;
+    },
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+  setPassword,
+  updatedUser,
+} = authSlice.actions;
 export default authSlice.reducer;

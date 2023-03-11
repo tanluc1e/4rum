@@ -12,6 +12,7 @@ import FlexBetween from "components/FlexBetween";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
+import { updatedUser } from "state";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -46,10 +47,8 @@ const Form = () => {
       }
     );
     const data = await response.json();
-
-    console.log("data la", data);
-    console.log("Id:", _id);
     onSubmitProps.resetForm();
+    dispatch(updatedUser(values));
   };
 
   return (
