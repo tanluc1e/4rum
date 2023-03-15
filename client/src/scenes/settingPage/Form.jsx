@@ -26,7 +26,7 @@ const Form = () => {
 
   const getUser = async () => {
     const response = await fetch(
-      `${process.env.SERVER_URL}:3001/users/${_id}`,
+      `https://four-server.onrender.com/users/${_id}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
@@ -41,7 +41,7 @@ const Form = () => {
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     const response = await fetch(
-      `${process.env.SERVER_URL}:3001/users/${_id}/setpassword/pass`,
+      `https://four-server.onrender.com/users/${_id}/setpassword/pass`,
       {
         method: "PATCH",
         headers: {

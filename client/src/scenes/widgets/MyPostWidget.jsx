@@ -46,7 +46,7 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picturePath", image.name);
     }
 
-    const response = await fetch(`${process.env.SERVER_URL}:3001/posts`, {
+    const response = await fetch(`https://four-server.onrender.com/posts`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

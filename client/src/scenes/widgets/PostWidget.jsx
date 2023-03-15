@@ -42,7 +42,7 @@ const PostWidget = ({
   const main = palette.neutral.main;
   const primary = palette.primary.main;
 
-  const fileUrl = `${process.env.SERVER_URL}:3001/assets/${picturePath}`;
+  const fileUrl = `https://four-server.onrender.com/assets/${picturePath}`;
   const encodedPath = encodeURIComponent(picturePath);
 
   const mimeType = mime.getType(fileUrl);
@@ -50,7 +50,7 @@ const PostWidget = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `${process.env.SERVER_URL}:3001/posts/${postId}/like`,
+      `https://four-server.onrender.com/posts/${postId}/like`,
       {
         method: "PATCH",
         headers: {
@@ -87,11 +87,11 @@ const PostWidget = ({
           width="100%"
           controls
           height="80%"
-          poster={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
+          poster={`https://four-server.onrender.com/assets/${encodedPath}`}
           style={{ aspectRatio: "1/1.3" }}
         >
           <source
-            src={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
+            src={`https://four-server.onrender.com/assets/${encodedPath}`}
             type="video/mp4"
           />
           <p className="vjs-no-js">
@@ -109,7 +109,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
+          src={`https://four-server.onrender.com/assets/${encodedPath}`}
         />
       )}
       <FlexBetween mt="0.25rem">
