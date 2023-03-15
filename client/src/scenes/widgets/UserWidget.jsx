@@ -22,10 +22,13 @@ const UserWidget = ({ userId, picturePath }) => {
   const main = palette.neutral.main;
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `${process.env.SERVER_URL}:3001/users/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await response.json();
     setUser(data);
   };
@@ -66,6 +69,7 @@ const UserWidget = ({ userId, picturePath }) => {
               sx={{
                 "&:hover": { color: palette.primary.light, cursor: "pointer" },
               }}
+              style={{ textTransform: "capitalize" }}
             >
               {firstName} {lastName}
             </Typography>

@@ -4,7 +4,14 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  Typography,
+  useTheme,
+  TextField,
+} from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -35,26 +42,24 @@ const PostWidget = ({
   const main = palette.neutral.main;
   const primary = palette.primary.main;
 
-  const fileUrl = `http://localhost:3001/assets/${picturePath}`;
+  const fileUrl = `${process.env.SERVER_URL}:3001/assets/${picturePath}`;
   const encodedPath = encodeURIComponent(picturePath);
 
   const mimeType = mime.getType(fileUrl);
-  const validImageTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/jpg",
-  ];
+  const validImageTypes = /^image\//.test(mimeType);
 
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
+    const response = await fetch(
+      `${process.env.SERVER_URL}:3001/posts/${postId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
   };
@@ -67,10 +72,14 @@ const PostWidget = ({
         subtitle={location}
         userPicturePath={userPicturePath}
       />
-      <Typography color={main} sx={{ mt: "1rem" }}>
+      <Typography
+        color={main}
+        sx={{ mt: "1rem", whiteSpace: "pre-wrap" }}
+        paragraph
+      >
         {description}
       </Typography>
-      {picturePath && !validImageTypes.includes(mimeType) ? (
+      {picturePath && !validImageTypes ? (
         <video
           id="my-video"
           className="video-js"
@@ -78,11 +87,11 @@ const PostWidget = ({
           width="100%"
           controls
           height="80%"
-          poster={`http://localhost:3001/assets/${encodedPath}`}
+          poster={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
           style={{ aspectRatio: "1/1.3" }}
         >
           <source
-            src={`http://localhost:3001/assets/${encodedPath}`}
+            src={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
             type="video/mp4"
           />
           <p className="vjs-no-js">
@@ -100,7 +109,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${encodedPath}`}
+          src={`${process.env.SERVER_URL}:3001/assets/${encodedPath}`}
         />
       )}
       <FlexBetween mt="0.25rem">

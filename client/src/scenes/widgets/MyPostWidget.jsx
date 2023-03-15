@@ -46,7 +46,7 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picturePath", image.name);
     }
 
-    const response = await fetch(`http://localhost:3001/posts`, {
+    const response = await fetch(`${process.env.SERVER_URL}:3001/posts`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,6 +59,11 @@ const MyPostWidget = ({ picturePath }) => {
     setPost("");
   };
 
+  /* "image/jpeg": [],
+  "image/png": [],
+  "image/jpg": [],
+  "image/webp": [], */
+
   return (
     <WidgetWrapper>
       <FlexBetween gap="1.5rem">
@@ -67,6 +72,7 @@ const MyPostWidget = ({ picturePath }) => {
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
+          multiline={true}
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
@@ -83,14 +89,16 @@ const MyPostWidget = ({ picturePath }) => {
           p="1rem"
         >
           <Dropzone
-            accept={{
-              "image/jpeg": [],
-              "image/png": [],
-              "image/jpg": [],
-              "image/webp": [],
-            }}
+            accept={{}}
             multiple={false}
-            onDropAccepted={(accept) => setImage(accept[0])}
+            onDropAccepted={(accept) => {
+              setImage(accept[0]);
+              accept.map((file) =>
+                Object.assign(file, {
+                  preview: URL.createObjectURL(file),
+                })
+              );
+            }}
           >
             {({ getRootProps, getInputProps }) => (
               <FlexBetween>
@@ -105,12 +113,25 @@ const MyPostWidget = ({ picturePath }) => {
                   {!image ? (
                     <p>Add Image Here</p>
                   ) : (
-                    <FlexBetween>
-                      <Typography>
-                        {image.name} {_id}
-                      </Typography>
-                      <EditOutlined />
-                    </FlexBetween>
+                    <Box>
+                      <FlexBetween>
+                        <img
+                          src={image.preview}
+                          alt={image.name}
+                          onLoad={() => {
+                            URL.revokeObjectURL(image.preview);
+                          }}
+                          width="50%"
+                        />
+                        <EditOutlined />
+                      </FlexBetween>
+                      <Divider style={{ margin: "1rem 0 1rem 0" }} />
+                      <FlexBetween>
+                        <Typography style={{ lineBreak: "anywhere" }}>
+                          {image.name}
+                        </Typography>
+                      </FlexBetween>
+                    </Box>
                   )}
                 </Box>
                 {image && (

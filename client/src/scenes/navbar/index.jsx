@@ -28,15 +28,19 @@ import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 
 const locationPath = () => {
-  switch (window.location.pathname) {
-    case "/settings":
+  switch (window.location.pathname.split("/")[1]) {
+    case "settings":
       return (
         <Link underline="hover" color="inherit" href="#">
           Settings
         </Link>
       );
-      break;
-
+    case "profile":
+      return (
+        <Link underline="hover" color="inherit" href="#">
+          Profile
+        </Link>
+      );
     default:
       break;
   }
@@ -130,7 +134,11 @@ const Navbar = () => {
             >
               <MenuItem value={fullName}>
                 <Typography>
-                  <Link href="/settings" underline="none" color="inherit">
+                  <Link
+                    onClick={() => navigate(`/settings`)}
+                    underline="none"
+                    color="inherit"
+                  >
                     {fullName}
                   </Link>
                 </Typography>

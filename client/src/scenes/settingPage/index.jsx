@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Form from "./Form";
+import Navbar from "scenes/navbar";
 
 const SettingPage = () => {
   const theme = useTheme();
@@ -13,17 +14,9 @@ const SettingPage = () => {
   return (
     <>
       <Box>
-        <Box
-          width="100%"
-          backgroundColor={theme.palette.background.alt}
-          p="1rem 6%"
-          textAlign="center"
-        >
-          <Typography fontWeight="bold" fontSize="32px" color="primary">
-            4rum
-          </Typography>
+        <Box>
+          <Navbar />
         </Box>
-
         <Box
           width={isNonMobileScreens ? "50%" : "93%"}
           p="2rem"

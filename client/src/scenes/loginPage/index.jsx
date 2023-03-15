@@ -2,7 +2,7 @@ import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Form from "./From";
+import Form from "./Form";
 
 const LoginPage = () => {
   const theme = useTheme();
