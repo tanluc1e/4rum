@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 /* READ */
 export const getUser = async (req, res) => {
@@ -55,7 +56,40 @@ export const addRemoveFriend = async (req, res) => {
         return { _id, firstName, lastName, occupation, location, picturePath };
       }
     );
+
     res.status(200).json(formattedFriends);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+export const setPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body.data;
+    const user = await User.findById(id);
+    let passwordHash = "";
+
+    const salt = await bcrypt.genSalt();
+    if (data.password) {
+      passwordHash = await bcrypt.hashSync(data.password, salt);
+    }
+
+    const result = await User.findByIdAndUpdate(
+      id,
+      {
+        firstName: data.firstName || user.firstName,
+        lastName: data.lastName || user.lastName,
+        password: passwordHash || user.password,
+        location: data.location || user.location,
+        occupation: data.occupation || user.occupation,
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).send({ result });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
